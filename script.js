@@ -88,6 +88,49 @@ class Calculator {
         this.updateDisplay();
     }
 
+    computeUnaryOperation(action) {
+        const currentVal = this.currentOperand;
+        const currentNum = parseFloat(currentVal);
+        if (isNaN(currentNum)) return;
+
+        let result;
+        let operationText;
+
+        switch (action) {
+            case 'reciprocal':
+                if (currentNum === 0) {
+                    this.previousOperandTextElement.innerText = `reciprocal(0)`;
+                    this.currentOperand = 'Error';
+                    this.currentOperandTextElement.innerText = this.currentOperand;
+                    this.readyToReset = true;
+                    this.operation = undefined;
+                    this.previousOperand = '';
+                    return;
+                }
+                result = 1 / currentNum;
+                operationText = `reciprocal(${currentVal})`;
+                break;
+            case 'square':
+                result = currentNum * currentNum;
+                operationText = `sqr(${currentVal})`;
+                break;
+            case 'sqrt':
+                result = Math.sqrt(currentNum);
+                operationText = `sqrt(${currentVal})`;
+                break;
+            default:
+                return;
+        }
+
+        this.currentOperand = result.toString();
+        this.operation = undefined;
+        this.previousOperand = '';
+        this.readyToReset = true;
+
+        this.previousOperandTextElement.innerText = operationText;
+        this.currentOperandTextElement.innerText = this.currentOperand;
+    }
+
     handleSpecialOperation(action) {
         const current = parseFloat(this.currentOperand);
         if (isNaN(current)) return;
@@ -101,23 +144,8 @@ class Calculator {
                     result = (prev * current) / 100;
                 }
                 break;
-            case 'sqrt':
-                result = Math.sqrt(current);
-                break;
             case 'negate':
                 result = current * -1;
-                break;
-            case 'reciprocal':
-                if (current === 0) {
-                    this.currentOperand = 'Error';
-                    this.readyToReset = true;
-                    this.updateDisplay();
-                    return;
-                }
-                result = 1 / current;
-                break;
-            case 'square':
-                result = current * current;
                 break;
         }
         this.currentOperand = result.toString();
@@ -154,9 +182,12 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         const action = button.dataset.action;
-        const specialActions = ['percent', 'sqrt', 'negate', 'reciprocal', 'square'];
+        const unaryComputationActions = ['reciprocal', 'square', 'sqrt'];
+        const specialInPlaceActions = ['percent', 'negate'];
 
-        if (specialActions.includes(action)) {
+        if (unaryComputationActions.includes(action)) {
+            calculator.computeUnaryOperation(action);
+        } else if (specialInPlaceActions.includes(action)) {
             calculator.handleSpecialOperation(action);
         } else {
             calculator.chooseOperation(button.innerText);

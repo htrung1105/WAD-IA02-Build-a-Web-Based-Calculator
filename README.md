@@ -31,8 +31,8 @@ The purpose of this project is to create a functional and visually appealing web
 
 ### User Input and Display
 - **User Inputs:** Users can input numbers and operations by clicking the on-screen buttons or using their keyboard.
-- **Operators:** When an operator is selected, the current number is moved to the "previous operand" display, and the calculator is ready to accept the next number.
-- **Display Handling:** The main display shows the current number being entered, while a smaller display above it shows the history of the current operation.
+- **Operators:** When a binary operator (+, -, ×, ÷) is selected, the current number is moved to the "previous operand" display. When a unary operator (1/x, x², ²√x) is selected, the calculation is performed immediately, and the operation is shown in the previous operand display.
+- **Display Handling:** The main display shows the current number or result, while a smaller display above it shows the history of the current operation.
 
 ### Assumptions
 - **Operator Precedence:** The calculator evaluates expressions as they are entered (from left to right) and does not follow strict mathematical operator precedence (e.g., multiplication before addition). This is consistent with the behavior of the Windows 11 Basic Mode calculator.
