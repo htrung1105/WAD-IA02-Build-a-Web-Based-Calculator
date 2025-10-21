@@ -88,24 +88,36 @@ class Calculator {
         this.updateDisplay();
     }
 
-    handleSpecialOperation(operator) {
+    handleSpecialOperation(action) {
         const current = parseFloat(this.currentOperand);
         if (isNaN(current)) return;
         let result;
-        switch (operator) {
-            case '%':
+        switch (action) {
+            case 'percent':
                 const prev = parseFloat(this.previousOperand);
                 if (isNaN(prev)) {
-                    result = 0; // Or handle as an error/no-op
+                    result = 0;
                 } else {
                     result = (prev * current) / 100;
                 }
                 break;
-            case '√':
+            case 'sqrt':
                 result = Math.sqrt(current);
                 break;
-            case '±':
+            case 'negate':
                 result = current * -1;
+                break;
+            case 'reciprocal':
+                if (current === 0) {
+                    this.currentOperand = 'Error';
+                    this.readyToReset = true;
+                    this.updateDisplay();
+                    return;
+                }
+                result = 1 / current;
+                break;
+            case 'square':
+                result = current * current;
                 break;
         }
         this.currentOperand = result.toString();
@@ -141,11 +153,13 @@ numberButtons.forEach(button => {
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const operator = button.innerText;
-        if (['%', '√', '±'].includes(operator)) {
-            calculator.handleSpecialOperation(operator);
+        const action = button.dataset.action;
+        const specialActions = ['percent', 'sqrt', 'negate', 'reciprocal', 'square'];
+
+        if (specialActions.includes(action)) {
+            calculator.handleSpecialOperation(action);
         } else {
-            calculator.chooseOperation(operator);
+            calculator.chooseOperation(button.innerText);
         }
     });
 });

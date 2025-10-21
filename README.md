@@ -18,8 +18,10 @@ The purpose of this project is to create a functional and visually appealing web
 - **Basic Operations:** Addition (+), Subtraction (-), Multiplication (×), Division (÷)
 - **Special Functions:**
   - Percentage (%)
-  - Square Root (√)
+  - Square Root (²√x)
   - Negate (±)
+  - Reciprocal (1/x)
+  - Square (x²)
 - **Control Functions:**
   - **CE (Clear Entry):** Clears the current input.
   - **C (Clear):** Clears all entries and resets the calculator.
@@ -64,9 +66,11 @@ The testing for this project was conducted manually. The following test cases co
 | **Multiplication**   | `5 × 6 =`                   | `30`            | `30`          | Pass   |
 | **Division**         | `20 ÷ 5 =`                  | `4`             | `4`           | Pass   |
 | **Division by Zero** | `5 ÷ 0 =`                   | `Error`         | `Error`       | Pass   |
-| **Square Root**      | `√9`                        | `3`             | `3`           | Pass   |
+| **Square Root**      | `²√x` of `9`                | `3`             | `3`           | Pass   |
 | **Percentage**       | `200 + 10 %`                | `20`            | `20`          | Pass   |
 | **Negate**           | `5`, `±`                    | `-5`            | `-5`          | Pass   |
+| **Reciprocal**       | `1/x` of `4`                | `0.25`          | `0.25`        | Pass   |
+| **Square**           | `x²` of `5`                 | `25`            | `25`          | Pass   |
 | **Clear (C)**        | `5 + 3 =`, then `C`         | `0`             | `0`           | Pass   |
 | **Clear Entry (CE)** | `5 + 3`, then `CE`          | `0` (current)   | `0` (current) | Pass   |
 | **Backspace**        | `123`, then `←`             | `12`            | `12`          | Pass   |
