@@ -31,8 +31,8 @@ The purpose of this project is to create a functional and visually appealing web
 
 ### User Input and Display
 - **User Inputs:** Users can input numbers and operations by clicking the on-screen buttons or using their keyboard.
-- **Operators:** When a binary operator (+, -, ×, ÷) is selected, the current number is moved to the "previous operand" display. When a unary operator (1/x, x², ²√x) is selected, the calculation is performed immediately, and the operation is shown in the previous operand display.
-- **Display Handling:** The main display shows the current number or result, while a smaller display above it shows the history of the current operation.
+- **Operators:** Unary operators (`%`, `1/x`, `x²`, `²√x`) act on the current number and can be chained within a larger calculation. The operation is shown in the history display, and the result of the unary operation updates the current number. The final calculation is performed when the equals (=) button is pressed.
+- **Display Handling:** The main display shows the current number being entered or the result of a unary operation. The smaller display above it shows the full expression being built.
 
 ### Assumptions
 - **Operator Precedence:** The calculator evaluates expressions as they are entered (from left to right) and does not follow strict mathematical operator precedence (e.g., multiplication before addition). This is consistent with the behavior of the Windows 11 Basic Mode calculator.
@@ -75,6 +75,7 @@ The testing for this project was conducted manually. The following test cases co
 | **Clear Entry (CE)** | `5 + 3`, then `CE`          | `0` (current)   | `0` (current) | Pass   |
 | **Backspace**        | `123`, then `←`             | `12`            | `12`          | Pass   |
 | **Chained Operations**| `2 + 3 × 4 =`               | `20`            | `20`          | Pass   |
+| **Unary Chaining**   | `6 + 1/x of 8 =`            | `6.125`         | `6.125`       | Pass   |
 | **Decimal Input**    | `1.5 + 2.5 =`               | `4`             | `4`           | Pass   |
 
 

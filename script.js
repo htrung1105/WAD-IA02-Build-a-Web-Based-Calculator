@@ -2,7 +2,6 @@ class Calculator {
     constructor(previousOperandTextElement, currentOperandTextElement) {
         this.previousOperandTextElement = previousOperandTextElement;
         this.currentOperandTextElement = currentOperandTextElement;
-        this.readyToReset = false;
         this.clear();
     }
 
@@ -10,10 +9,14 @@ class Calculator {
         this.currentOperand = '0';
         this.previousOperand = '';
         this.operation = undefined;
+        this.historyString = '';
+        this.readyToReset = false;
+        this.unaryApplied = false;
         this.updateDisplay();
     }
 
     delete() {
+        if (this.unaryApplied || this.readyToReset) return;
         if (this.currentOperand.length > 1) {
             this.currentOperand = this.currentOperand.toString().slice(0, -1);
         } else {
@@ -24,8 +27,12 @@ class Calculator {
 
     appendNumber(number) {
         if (this.readyToReset) {
+            this.clear();
+        }
+        if (this.unaryApplied) {
             this.currentOperand = '';
-            this.readyToReset = false;
+            this.unaryApplied = false;
+            this.historyString = `${this.previousOperand} ${this.operation}`;
         }
         if (number === '.' && this.currentOperand.includes('.')) return;
         if (this.currentOperand === '0' && number !== '.') {
@@ -39,16 +46,19 @@ class Calculator {
     chooseOperation(operation) {
         if (this.currentOperand === '' && this.previousOperand !== '') {
             this.operation = operation;
+            this.historyString = `${this.previousOperand} ${this.operation}`;
             this.updateDisplay();
             return;
         }
         if (this.previousOperand !== '') {
             this.compute();
         }
-        this.operation = operation;
         this.previousOperand = this.currentOperand;
+        this.operation = operation;
+        this.historyString = `${this.previousOperand} ${this.operation}`;
         this.currentOperand = '';
         this.readyToReset = false;
+        this.unaryApplied = false;
         this.updateDisplay();
     }
 
@@ -59,8 +69,7 @@ class Calculator {
         if (isNaN(prev) || isNaN(current)) return;
         if (this.operation === '÷' && current === 0) {
             this.currentOperand = 'Error';
-            this.operation = undefined;
-            this.previousOperand = '';
+            this.historyString = '';
             this.readyToReset = true;
             this.updateDisplay();
             return;
@@ -84,81 +93,63 @@ class Calculator {
         this.currentOperand = computation.toString();
         this.operation = undefined;
         this.previousOperand = '';
+        this.historyString = '';
         this.readyToReset = true;
+        this.unaryApplied = false;
         this.updateDisplay();
     }
 
-    computeUnaryOperation(action) {
-        const currentVal = this.currentOperand;
-        const currentNum = parseFloat(currentVal);
+    applyUnaryOperation(action) {
+        if (this.currentOperand === '') return;
+
+        const originalNumber = this.currentOperand;
+        const currentNum = parseFloat(originalNumber);
         if (isNaN(currentNum)) return;
 
         let result;
-        let operationText;
+        let unaryString;
 
         switch (action) {
+            case 'percent':
+                const prev = parseFloat(this.previousOperand);
+                result = isNaN(prev) ? 0 : (prev * currentNum) / 100;
+                unaryString = result.toString();
+                break;
             case 'reciprocal':
                 if (currentNum === 0) {
-                    this.previousOperandTextElement.innerText = `reciprocal(0)`;
                     this.currentOperand = 'Error';
-                    this.currentOperandTextElement.innerText = this.currentOperand;
+                    this.historyString = `1/(${originalNumber})`;
                     this.readyToReset = true;
-                    this.operation = undefined;
-                    this.previousOperand = '';
+                    this.updateDisplay();
                     return;
                 }
                 result = 1 / currentNum;
-                operationText = `reciprocal(${currentVal})`;
+                unaryString = `1/(${originalNumber})`;
                 break;
             case 'square':
                 result = currentNum * currentNum;
-                operationText = `sqr(${currentVal})`;
+                unaryString = `sqr(${originalNumber})`;
                 break;
             case 'sqrt':
                 result = Math.sqrt(currentNum);
-                operationText = `sqrt(${currentVal})`;
+                unaryString = `sqrt(${originalNumber})`;
                 break;
-            default:
+            case 'negate':
+                result = currentNum * -1;
+                this.currentOperand = result.toString();
+                this.updateDisplay();
                 return;
         }
 
         this.currentOperand = result.toString();
-        this.operation = undefined;
-        this.previousOperand = '';
-        this.readyToReset = true;
-
-        this.previousOperandTextElement.innerText = operationText;
-        this.currentOperandTextElement.innerText = this.currentOperand;
-    }
-
-    handleSpecialOperation(action) {
-        const current = parseFloat(this.currentOperand);
-        if (isNaN(current)) return;
-        let result;
-        switch (action) {
-            case 'percent':
-                const prev = parseFloat(this.previousOperand);
-                if (isNaN(prev)) {
-                    result = 0;
-                } else {
-                    result = (prev * current) / 100;
-                }
-                break;
-            case 'negate':
-                result = current * -1;
-                break;
-        }
-        this.currentOperand = result.toString();
+        this.historyString = this.previousOperand ? `${this.previousOperand} ${this.operation} ${unaryString}` : unaryString;
+        this.unaryApplied = true;
         this.updateDisplay();
     }
 
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.currentOperand;
-        if (this.operation != null) {
-            this.previousOperandTextElement.innerText = `${this.previousOperand} ${this.operation}`;
-        } else {
-            this.previousOperandTextElement.innerText = '';
-        }
+        this.previousOperandTextElement.innerText = this.historyString;
     }
 }
 
@@ -173,6 +164,13 @@ const currentOperandTextElement = document.querySelector('.current-operand');
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
 
+const opMap = {
+    add: '+',
+    subtract: '-',
+    multiply: '×',
+    divide: '÷'
+};
+
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.appendNumber(button.innerText);
@@ -182,15 +180,12 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
         const action = button.dataset.action;
-        const unaryComputationActions = ['reciprocal', 'square', 'sqrt'];
-        const specialInPlaceActions = ['percent', 'negate'];
+        const unaryActions = ['percent', 'reciprocal', 'square', 'sqrt', 'negate'];
 
-        if (unaryComputationActions.includes(action)) {
-            calculator.computeUnaryOperation(action);
-        } else if (specialInPlaceActions.includes(action)) {
-            calculator.handleSpecialOperation(action);
-        } else {
-            calculator.chooseOperation(button.innerText);
+        if (unaryActions.includes(action)) {
+            calculator.applyUnaryOperation(action);
+        } else if (opMap[action]) {
+            calculator.chooseOperation(opMap[action]);
         }
     });
 });
@@ -209,13 +204,19 @@ backspaceButton.addEventListener('click', button => {
 
 clearEntryButton.addEventListener('click', () => {
     calculator.currentOperand = '0';
+    calculator.unaryApplied = false;
+    calculator.historyString = calculator.previousOperand ? `${calculator.previousOperand} ${calculator.operation}` : '';
     calculator.updateDisplay();
 });
 
-
-// Keyboard Support
 window.addEventListener('keydown', (e) => {
     const key = e.key;
+    const button = document.querySelector(`button[data-key="${key}"]`);
+    if (button) {
+        button.click();
+        return;
+    }
+
     if (key >= 0 && key <= 9 || key === '.') {
         calculator.appendNumber(key);
     } else if (key === '+' || key === '-') {
