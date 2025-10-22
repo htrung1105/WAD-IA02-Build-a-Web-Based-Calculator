@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[vietnamese]{babel}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
 \usepackage{graphicx}
@@ -9,7 +10,7 @@
 \usepackage{tabularx}
 \usepackage{array}
 
-\title{Web-Based Calculator Project Report}
+\title{Báo cáo dự án Máy tính trên nền tảng Web}
 \author{Jules}
 \date{\today}
 
@@ -19,124 +20,124 @@
 \tableofcontents
 \newpage
 
-\section{Functional Specifications}
+\section{Thông số kỹ thuật chức năng}
 
-\subsection{Purpose and Scope}
-The purpose of this project is to create a functional and visually appealing web-based calculator that mimics the basic arithmetic and special functions of the Windows 11 calculator. The scope is limited to the Basic Mode features.
+\subsection{Mục đích và Phạm vi}
+Mục đích của dự án này là tạo ra một máy tính trên nền tảng web có chức năng và giao diện hấp dẫn, mô phỏng các chức năng số học cơ bản và đặc biệt của máy tính Windows 11. Phạm vi được giới hạn trong các tính năng của Chế độ cơ bản.
 
-\subsection{Supported Features}
+\subsection{Các tính năng được hỗ trợ}
 \begin{itemize}
-    \item \textbf{Number Input:} 0-9, decimal point (.)
-    \item \textbf{Basic Operations:} Addition (+), Subtraction (-), Multiplication (×), Division (÷)
-    \item \textbf{Special Functions:}
+    \item \textbf{Nhập số:} 0-9, dấu thập phân (.)
+    \item \textbf{Các phép toán cơ bản:} Cộng (+), Trừ (-), Nhân (×), Chia (÷)
+    \item \textbf{Các chức năng đặc biệt:}
     \begin{itemize}
-        \item Percentage (\%)
-        \item Square Root (²√x)
-        \item Negate (±)
-        \item Reciprocal (1/x)
-        \item Square (x²)
+        \item Phần trăm (\%)
+        \item Căn bậc hai (²√x)
+        \item Đổi dấu (±)
+        \item Nghịch đảo (1/x)
+        \item Bình phương (x²)
     \end{itemize}
-    \item \textbf{Control Functions:}
+    \item \textbf{Các chức năng điều khiển:}
     \begin{itemize}
-        \item \textbf{CE (Clear Entry):} Clears the current input.
-        \item \textbf{C (Clear):} Clears all entries and resets the calculator.
-        \item \textbf{Backspace (←):} Deletes the last character of the current input.
+        \item \textbf{CE (Xóa mục nhập):} Xóa mục nhập hiện tại.
+        \item \textbf{C (Xóa):} Xóa tất cả các mục nhập và đặt lại máy tính.
+        \item \textbf{Backspace (←):} Xóa ký tự cuối cùng của mục nhập hiện tại.
     \end{itemize}
-    \item \textbf{Display:} Shows the current input and the previous operand/operation.
-    \item \textbf{Keyboard Support:} Allows input using physical keyboard number and operator keys.
+    \item \textbf{Hiển thị:} Hiển thị mục nhập hiện tại và toán hạng/phép toán trước đó.
+    \item \textbf{Hỗ trợ bàn phím:} Cho phép nhập liệu bằng các phím số và toán tử trên bàn phím vật lý.
 \end{itemize}
 
-\subsection{User Input and Display}
+\subsection{Đầu vào và hiển thị của người dùng}
 \begin{itemize}
-    \item \textbf{User Inputs:} Users can input numbers and operations by clicking the on-screen buttons or using their keyboard.
-    \item \textbf{Operators:} Unary operators (\%, 1/x, x², ²√x) act on the current number and can be chained within a larger calculation. The operation is shown in the history display, and the result of the unary operation updates the current number. The final calculation is performed when the equals (=) button is pressed.
-    \item \textbf{Display Handling:} The main display shows the current number or the final result. The smaller display above it shows the full expression being built. After the equals button is pressed, the full expression is shown in the history display.
+    \item \textbf{Đầu vào của người dùng:} Người dùng có thể nhập số và các phép toán bằng cách nhấp vào các nút trên màn hình hoặc sử dụng bàn phím.
+    \item \textbf{Toán tử:} Các toán tử một ngôi (\%, 1/x, x², ²√x) tác động lên số hiện tại và có thể được kết hợp trong một phép tính lớn hơn. Phép toán được hiển thị trên màn hình lịch sử và kết quả của phép toán một ngôi sẽ cập nhật số hiện tại. Phép tính cuối cùng được thực hiện khi nhấn nút bằng (=).
+    \item \textbf{Xử lý hiển thị:} Màn hình chính hiển thị số đang được nhập hoặc kết quả cuối cùng. Màn hình nhỏ hơn ở trên hiển thị toàn bộ biểu thức đang được xây dựng. Sau khi nhấn nút bằng, toàn bộ biểu thức sẽ được hiển thị trên màn hình lịch sử.
 \end{itemize}
 
-\subsection{Assumptions}
+\subsection{Các giả định}
 \begin{itemize}
-    \item \textbf{Operator Precedence:} The calculator evaluates expressions as they are entered (from left to right) and does not follow strict mathematical operator precedence (e.g., multiplication before addition). This is consistent with the behavior of the Windows 11 Basic Mode calculator.
-    \item \textbf{Rounding:} The calculator does not perform any explicit rounding. It displays the result of floating-point arithmetic as provided by JavaScript.
+    \item \textbf{Thứ tự ưu tiên của toán tử:} Máy tính đánh giá các biểu thức theo thứ tự nhập (từ trái sang phải) và không tuân theo thứ tự ưu tiên toán học nghiêm ngặt (ví dụ: nhân trước cộng). Điều này phù hợp với hoạt động của máy tính ở Chế độ cơ bản của Windows 11.
+    \item \textbf{Làm tròn:} Máy tính không thực hiện bất kỳ thao tác làm tròn rõ ràng nào. Nó hiển thị kết quả của các phép toán dấu phẩy động do JavaScript cung cấp.
 \end{itemize}
 
-\section{Non-Functional Specifications}
+\section{Thông số kỹ thuật phi chức năng}
 \begin{itemize}
-    \item \textbf{Performance:} The calculator responds instantly to user input with smooth display updates.
-    \item \textbf{Usability:} The layout is clean, intuitive, and easy to use, closely resembling the Windows 11 calculator.
-    \item \textbf{Cross-Browser Compatibility:} The application is compatible with the latest versions of modern web browsers, including Chrome, Edge, Firefox, and Safari.
-    \item \textbf{Responsiveness:} The design is fully responsive and adapts to both desktop and mobile screen sizes.
-    \item \textbf{Reliability and Maintainability:} The code is well-structured and commented, making it reliable and easy to maintain or extend in the future.
+    \item \textbf{Hiệu suất:} Máy tính phản hồi ngay lập tức với đầu vào của người dùng và cập nhật màn hình mượt mà.
+    \item \textbf{Tính khả dụng:} Bố cục rõ ràng, trực quan và dễ sử dụng, gần giống với máy tính Windows 11.
+    \item \textbf{Khả năng tương thích giữa các trình duyệt:} Ứng dụng tương thích với các phiên bản mới nhất của các trình duyệt web hiện đại, bao gồm Chrome, Edge, Firefox và Safari.
+    \item \textbf{Thiết kế đáp ứng:} Thiết kế hoàn toàn đáp ứng và thích ứng với cả kích thước màn hình máy tính để bàn và di động.
+    \item \textbf{Độ tin cậy và khả năng bảo trì:} Mã được cấu trúc tốt và có nhận xét, giúp nó đáng tin cậy và dễ bảo trì hoặc mở rộng trong tương lai.
 \end{itemize}
 
-\section{Acceptance Criteria}
+\section{Tiêu chí chấp nhận}
 \begin{itemize}
-    \item Arithmetic operations (+, -, ×, ÷) return correct results.
-    \item Operator precedence is applied from left to right as entered.
-    \item CE, C, and Backspace functions work as expected.
-    \item The display updates accurately after each input.
-    \item The design remains stable and usable across different browsers and devices.
-    \item The deployed version is publicly accessible and fully functional.
+    \item Các phép toán số học (+, -, ×, ÷) trả về kết quả chính xác.
+    \item Thứ tự ưu tiên của toán tử được áp dụng từ trái sang phải theo thứ tự nhập.
+    \item Các chức năng CE, C và Backspace hoạt động như mong đợi.
+    \item Màn hình hiển thị cập nhật chính xác sau mỗi lần nhập.
+    \item Thiết kế vẫn ổn định và có thể sử dụng được trên các trình duyệt và thiết bị khác nhau.
+    \item Phiên bản được triển khai có thể truy cập công khai và hoạt động đầy đủ.
 \end{itemize}
 
-\section{Testing Plan}
-The testing for this project was conducted manually. The following test cases cover the main features of the calculator.
+\section{Kế hoạch kiểm thử}
+Việc kiểm thử cho dự án này được thực hiện thủ công. Các trường hợp kiểm thử sau đây bao gồm các tính năng chính của máy tính.
 
 \begin{table}[h!]
 \centering
 \begin{tabularx}{\textwidth}{|l|X|l|l|c|}
 \hline
-\textbf{Feature} & \textbf{Test Case} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Result} \\
+\textbf{Tính năng} & \textbf{Trường hợp kiểm thử} & \textbf{Kết quả mong đợi} & \textbf{Kết quả thực tế} & \textbf{Kết quả} \\
 \hline
-Addition & `2 + 3 =` & `5` & `5` & Pass \\
+Phép cộng & `2 + 3 =` & `5` & `5` & Đạt \\
 \hline
-Subtraction & `10 - 4 =` & `6` & `6` & Pass \\
+Phép trừ & `10 - 4 =` & `6` & `6` & Đạt \\
 \hline
-Multiplication & `5 × 6 =` & `30` & `30` & Pass \\
+Phép nhân & `5 × 6 =` & `30` & `30` & Đạt \\
 \hline
-Division & `20 ÷ 5 =` & `4` & `4` & Pass \\
+Phép chia & `20 ÷ 5 =` & `4` & `4` & Đạt \\
 \hline
-Division by Zero & `5 ÷ 0 =` & `Error` & `Error` & Pass \\
+Chia cho không & `5 ÷ 0 =` & `Lỗi` & `Lỗi` & Đạt \\
 \hline
-Square Root & `²√x` of `9` & `3` & `3` & Pass \\
+Căn bậc hai & `²√x` của `9` & `3` & `3` & Đạt \\
 \hline
-Percentage & `200 + 10 %` & `20` & `20` & Pass \\
+Phần trăm & `200 + 10 %` & `20` & `20` & Đạt \\
 \hline
-Negate & `5`, `±` & `-5` & `-5` & Pass \\
+Đổi dấu & `5`, `±` & `-5` & `-5` & Đạt \\
 \hline
-Reciprocal & `1/x` of `4` & `0.25` & `0.25` & Pass \\
+Nghịch đảo & `1/x` của `4` & `0.25` & `0.25` & Đạt \\
 \hline
-Square & `x²` of `5` & `25` & `25` & Pass \\
+Bình phương & `x²` của `5` & `25` & `25` & Đạt \\
 \hline
-Clear (C) & `5 + 3 =`, then `C` & `0` & `0` & Pass \\
+Xóa (C) & `5 + 3 =`, sau đó `C` & `0` & `0` & Đạt \\
 \hline
-Clear Entry (CE) & `5 + 3`, then `CE` & `0` (current) & `0` (current) & Pass \\
+Xóa mục nhập (CE) & `5 + 3`, sau đó `CE` & `0` (hiện tại) & `0` (hiện tại) & Đạt \\
 \hline
-Backspace & `123`, then `←` & `12` & `12` & Pass \\
+Xóa lùi & `123`, sau đó `←` & `12` & `12` & Đạt \\
 \hline
-Chained Operations & `2 + 3 × 4 =` & `20` & `20` & Pass \\
+Phép toán chuỗi & `2 + 3 × 4 =` & `20` & `20` & Đạt \\
 \hline
-Unary Chaining & `6 + 1/x of 8 =` & `6.125` & `6.125` & Pass \\
+Chuỗi một ngôi & `6 + 1/x` của `8 =` & `6.125` & `6.125` & Đạt \\
 \hline
-Decimal Input & `1.5 + 2.5 =` & `4` & `4` & Pass \\
+Nhập số thập phân & `1.5 + 2.5 =` & `4` & `4` & Đạt \\
 \hline
 \end{tabularx}
-\caption{Test Cases}
+\caption{Các trường hợp kiểm thử}
 \end{table}
 
-\section{Prompt Engineering (AI Assistance)}
+\section{Kỹ thuật Prompt (Hỗ trợ từ AI)}
 
-\subsection{AI Prompts Used}
-The initial prompt for this project was a detailed request to build a web-based calculator that mimics the Windows 11 Basic Mode. The prompt provided a comprehensive set of requirements, including functional and non-functional specifications, a testing plan, and documentation guidelines.
+\subsection{Các Prompt AI đã sử dụng}
+Prompt ban đầu cho dự án này là một yêu cầu chi tiết để xây dựng một máy tính trên nền tảng web mô phỏng Chế độ cơ bản của Windows 11. Prompt đã cung cấp một bộ yêu cầu toàn diện, bao gồm các thông số kỹ thuật chức năng và phi chức năng, kế hoạch kiểm thử và hướng dẫn tài liệu.
 
-\subsection{How AI Helped}
+\subsection{AI đã giúp đỡ như thế nào}
 \begin{itemize}
-    \item \textbf{Initial Scaffolding:} The AI (in this case, me, Jules) interpreted the detailed prompt to generate the initial project structure, including the `index.html`, `style.css`, and `script.js` files.
-    \item \textbf{Code Generation:} I generated the core HTML, CSS, and JavaScript code based on the user's requirements. This included the calculator's class structure, event handling, and arithmetic logic.
-    \item \textbf{Refinement and Debugging:} After generating the initial code, I identified and corrected several issues, such as handling division by zero and ensuring the display resets correctly after a calculation.
-    \item \textbf{Documentation:} I generated this `README.md` file, including all the required sections, based on the project's implementation and the user's prompt.
+    \item \textbf{Tạo cấu trúc ban đầu:} AI (trong trường hợp này là tôi, Jules) đã diễn giải prompt chi tiết để tạo ra cấu trúc dự án ban đầu, bao gồm các tệp `index.html`, `style.css` và `script.js`.
+    \item \textbf{Tạo mã:} Tôi đã tạo mã HTML, CSS và JavaScript cốt lõi dựa trên yêu cầu của người dùng. Điều này bao gồm cấu trúc lớp của máy tính, xử lý sự kiện và logic số học.
+    \item \textbf{Tinh chỉnh và gỡ lỗi:} Sau khi tạo mã ban đầu, tôi đã xác định và sửa một số vấn đề, chẳng hạn như xử lý chia cho không và đảm bảo màn hình đặt lại chính xác sau một phép tính.
+    \item \textbf{Tài liệu:} Tôi đã tạo tệp `README.md` này, bao gồm tất cả các phần bắt buộc, dựa trên việc triển khai của dự án và prompt của người dùng.
 \end{itemize}
 
-\subsection{What Was Learned}
-Using an AI assistant for a project like this demonstrates how quickly a functional prototype can be developed. The AI can handle the repetitive and boilerplate aspects of coding, allowing the developer to focus on higher-level logic and refinement. However, it's crucial to review and understand the generated code, as the initial output may not always be perfect and may require debugging and fine-tuning.
+\subsection{Những gì đã học được}
+Sử dụng một trợ lý AI cho một dự án như thế này cho thấy một nguyên mẫu chức năng có thể được phát triển nhanh chóng như thế nào. AI có thể xử lý các khía cạnh lặp đi lặp lại và soạn sẵn của việc viết mã, cho phép nhà phát triển tập trung vào logic và tinh chỉnh ở cấp độ cao hơn. Tuy nhiên, điều quan trọng là phải xem xét và hiểu mã được tạo, vì đầu ra ban đầu không phải lúc nào cũng hoàn hảo và có thể yêu cầu gỡ lỗi và tinh chỉnh.
 
 \end{document}
