@@ -63,17 +63,29 @@ class Calculator {
     }
 
     compute() {
-        let computation;
         const prev = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
-        if (isNaN(prev) || isNaN(current)) return;
-        if (this.operation === '÷' && current === 0) {
-            this.currentOperand = 'Error';
-            this.historyString = '';
+
+        if (this.operation === undefined) {
+            this.historyString = `${this.currentOperand} =`;
             this.readyToReset = true;
             this.updateDisplay();
             return;
         }
+
+        if (isNaN(prev) || isNaN(current)) return;
+
+        const expressionString = this.unaryApplied ? this.historyString : `${this.historyString} ${this.currentOperand}`;
+
+        let computation;
+        if (this.operation === '÷' && current === 0) {
+            this.currentOperand = 'Error';
+            this.historyString = `${expressionString} =`;
+            this.readyToReset = true;
+            this.updateDisplay();
+            return;
+        }
+
         switch (this.operation) {
             case '+':
                 computation = prev + current;
@@ -90,10 +102,11 @@ class Calculator {
             default:
                 return;
         }
+
         this.currentOperand = computation.toString();
         this.operation = undefined;
         this.previousOperand = '';
-        this.historyString = '';
+        this.historyString = `${expressionString} =`;
         this.readyToReset = true;
         this.unaryApplied = false;
         this.updateDisplay();

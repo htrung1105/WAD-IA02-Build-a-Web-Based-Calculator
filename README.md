@@ -32,7 +32,7 @@ The purpose of this project is to create a functional and visually appealing web
 ### User Input and Display
 - **User Inputs:** Users can input numbers and operations by clicking the on-screen buttons or using their keyboard.
 - **Operators:** Unary operators (`%`, `1/x`, `x²`, `²√x`) act on the current number and can be chained within a larger calculation. The operation is shown in the history display, and the result of the unary operation updates the current number. The final calculation is performed when the equals (=) button is pressed.
-- **Display Handling:** The main display shows the current number being entered or the result of a unary operation. The smaller display above it shows the full expression being built.
+- **Display Handling:** The main display shows the current number or the final result. The smaller display above it shows the full expression being built. After the equals button is pressed, the full expression is shown in the history display.
 
 ### Assumptions
 - **Operator Precedence:** The calculator evaluates expressions as they are entered (from left to right) and does not follow strict mathematical operator precedence (e.g., multiplication before addition). This is consistent with the behavior of the Windows 11 Basic Mode calculator.
