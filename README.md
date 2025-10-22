@@ -4,7 +4,7 @@ This project is a web-based calculator that replicates the Basic Mode functional
 
 ## Deployed Application
 
-You can access the live calculator here: [GitHub Pages Link](https://your-username.github.io/your-repo-name/)
+You can access the live calculator here: [GitHub Pages Link](https://github.com/htrung1105/WAD-IA02-Build-a-Web-Based-Calculator)
 
 *(Note: You will need to replace the placeholder URL with your actual GitHub Pages link after deployment.)*
 
@@ -102,3 +102,4 @@ To deploy this project to GitHub Pages, follow these steps:
 4. Under "Source," select the branch you want to deploy from (usually `main` or `master`).
 5. Click "Save." GitHub will then build and deploy your site. It may take a few minutes for the site to become live.
 6. Once deployed, you will see the public URL for your live calculator. Add this link to the top of this `README.md` file.
+
