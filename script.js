@@ -63,7 +63,6 @@ class Calculator {
     }
 
     compute() {
-        let computation;
         const prev = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
 
@@ -78,6 +77,7 @@ class Calculator {
 
         const expressionString = this.unaryApplied ? this.historyString : `${this.historyString} ${this.currentOperand}`;
 
+        let computation;
         if (this.operation === '÷' && current === 0) {
             this.currentOperand = 'Error';
             this.historyString = `${expressionString} =`;
@@ -85,6 +85,7 @@ class Calculator {
             this.updateDisplay();
             return;
         }
+
         switch (this.operation) {
             case '+':
                 computation = prev + current;
@@ -101,6 +102,7 @@ class Calculator {
             default:
                 return;
         }
+
         this.currentOperand = computation.toString();
         this.operation = undefined;
         this.previousOperand = '';
@@ -123,7 +125,7 @@ class Calculator {
         switch (action) {
             case 'percent':
                 const prev = parseFloat(this.previousOperand);
-                result = isNaN(prev) ? 0 : (prev * currentNum) / 100;
+                result = isNaN(prev) ? currentNum / 100 : (prev * currentNum) / 100;
                 unaryString = result.toString();
                 break;
             case 'reciprocal':
